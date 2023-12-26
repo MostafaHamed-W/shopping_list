@@ -13,7 +13,7 @@ class GroceryList extends ConsumerWidget {
       itemCount: groceryItems.length,
       itemBuilder: (context, index) {
         return Dismissible(
-          key: ValueKey(index),
+          key: ValueKey(groceryItems[index].id),
           onDismissed: (direction) {
             groceryList.removeItem(groceryItems[index].id);
           },

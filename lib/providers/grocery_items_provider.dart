@@ -20,11 +20,11 @@ class GroceryNotifier extends StateNotifier<List<GroceryItem>> {
   void addNewItem(
       {required String id,
       required String name,
-      required int quantity,
+      required String quantity,
       required Category category}) {
     state = [
       ...state,
-      GroceryItem(id: id, name: name, quantity: quantity, category: category),
+      GroceryItem(id: id, name: name, quantity: int.parse(quantity), category: category),
     ];
   }
 

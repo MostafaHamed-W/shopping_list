@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shopping_list/data/categories.dart';
 import 'package:shopping_list/models/category.dart';
+import 'package:shopping_list/providers/grocery_items_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class NewItem extends ConsumerStatefulWidget {
@@ -22,8 +23,9 @@ class _NewItemState extends ConsumerState<NewItem> {
   ];
 
   final uuid = const Uuid();
-  final selectedValue = categories.entries.first.value;
+
   final _formKey = GlobalKey<FormState>();
+  Category selectedCategory = categories.entries.first.value;
 
   @override
   void dispose() {
@@ -90,7 +92,7 @@ class _NewItemState extends ConsumerState<NewItem> {
                   const SizedBox(width: 20),
                   Expanded(
                     child: DropdownButtonFormField(
-                      value: selectedValue,
+                      value: selectedCategory,
                       items: [
                         for (var category in categories.entries)
                           DropdownMenuItem(
@@ -108,7 +110,9 @@ class _NewItemState extends ConsumerState<NewItem> {
                             ),
                           )
                       ],
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        selectedCategory = value!;
+                      },
                     ),
                   ),
                 ],
@@ -130,7 +134,17 @@ class _NewItemState extends ConsumerState<NewItem> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        _formKey.currentState!.validate();
+                        if (_formKey.currentState!.validate() == true) {
+                          _formKey.currentState!.save();
+                          ref.read(groceryListProvider.notifier).addNewItem(
+                                id: uuid.v4(),
+                                name: _itemNameController.text,
+                                quantity: _itemCountController.text,
+                                category: selectedCategory,
+                              );
+                          Navigator.pop(context);
+                        } else {}
+                        ;
                       },
                       child: const Text('Add'),
                     ),
