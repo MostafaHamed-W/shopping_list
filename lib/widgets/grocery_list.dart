@@ -15,7 +15,7 @@ class GroceryList extends ConsumerWidget {
         return Dismissible(
           key: ValueKey(index),
           onDismissed: (direction) {
-            groceryList.removeItem(groceryItems[index].name);
+            groceryList.removeItem(groceryItems[index].id);
           },
           child: ListTile(
             title: Text(groceryItems[index].name),
@@ -25,6 +25,7 @@ class GroceryList extends ConsumerWidget {
               color: groceryItems[index].category.color,
             ),
             trailing: Text("${groceryItems[index].quantity}"),
+            subtitle: Text(groceryItems[index].id),
           ),
         );
       },

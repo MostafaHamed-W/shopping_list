@@ -28,7 +28,7 @@ class GroceryNotifier extends StateNotifier<List<GroceryItem>> {
     ];
   }
 
-  void removeItem(name) {
-    state = state.where((element) => name != element.name).toList();
+  void removeItem(id) {
+    state = state.where((element) => id != element.id).toList();
   }
 }
