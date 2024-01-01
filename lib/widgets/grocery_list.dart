@@ -25,7 +25,7 @@ class GroceryList extends ConsumerWidget {
               color: groceryItems[index].category.color,
             ),
             trailing: Text("${groceryItems[index].quantity}"),
-            subtitle: Text(groceryItems[index].id),
+            // subtitle: Text(groceryItems[index].id),
           ),
         );
       },

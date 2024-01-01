@@ -27,6 +27,19 @@ class _NewItemState extends ConsumerState<NewItem> {
   final _formKey = GlobalKey<FormState>();
   Category selectedCategory = categories.entries.first.value;
 
+  void saveItem() async {
+    if (_formKey.currentState!.validate() == true) {
+      _formKey.currentState!.save();
+      ref.read(groceryListProvider.notifier).addNewItem(
+            id: uuid.v4(),
+            name: _itemNameController.text,
+            quantity: _itemCountController.text,
+            category: selectedCategory,
+          );
+      Navigator.pop(context);
+    } else {}
+  }
+
   @override
   void dispose() {
     _itemNameController.dispose();
@@ -133,19 +146,7 @@ class _NewItemState extends ConsumerState<NewItem> {
                   SizedBox(
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate() == true) {
-                          _formKey.currentState!.save();
-                          ref.read(groceryListProvider.notifier).addNewItem(
-                                id: uuid.v4(),
-                                name: _itemNameController.text,
-                                quantity: _itemCountController.text,
-                                category: selectedCategory,
-                              );
-                          Navigator.pop(context);
-                        } else {}
-                        ;
-                      },
+                      onPressed: saveItem,
                       child: const Text('Add'),
                     ),
                   )
